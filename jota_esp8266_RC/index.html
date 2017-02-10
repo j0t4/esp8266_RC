@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'> 
+<style>
+	* {-webkit-user-select: none;}
+</style>
+<title>RC</title>
+<script>
+
+var connection; window.addEventListener('load', function () {
+		connection = new WebSocket('ws://192.168.4.1:81');
+		connection.onopen = function () {
+			console.log('Connection opened');	
+		};
+		connection.onclose = function () {
+			console.log('Connection closed');
+		};
+		connection.onerror = function () {
+			console.error('Connection error');
+		};
+		connection.onmessage = function (event) {
+			var div = document.getElementById('salida');
+			div.textContent = event.data;			
+		};
+ document.getElementById('up').addEventListener('touchstart', function () {
+ connection.send('#1');}, false);
+ document.getElementById('up').addEventListener('touchend', function () {
+ connection.send('#0');}, false);
+ document.getElementById('down').addEventListener('touchstart', function () {
+ connection.send('#2');}, false);
+ document.getElementById('down').addEventListener('touchend', function () {
+ connection.send('#0');}, false);
+ document.getElementById('left').addEventListener('touchstart', function () {
+ connection.send('#3');}, false);
+ document.getElementById('left').addEventListener('touchend', function () {
+ connection.send('#0');}, false);
+ 
+ document.getElementById('right').addEventListener('touchstart', function () {
+ connection.send('#4');}, false);
+ document.getElementById('right').addEventListener('touchend', function () {
+ connection.send('#0');}, false);
+ 
+ document.getElementById('center').addEventListener('touchstart', function () {
+ connection.send('#0');}, false);
+ document.getElementById('center').addEventListener('touchend', function () {
+ connection.send('#0');}, false); 
+});
+</script>
+</head>
+<body>
+ <div id='joystick'>
+ <svg height='360' width='360'>
+ <path id='up' d='M0,0 360,0 180,180Z' fill='rgba(0,0,0,0.5)' />
+ <path id='left' d='M0,0 180,180 0,360Z' fill='rgba(0,0,0,0.4)' />
+ <path id='right' d='M360,0 360,360 180,180Z' fill='rgba(0,0,0,0.3)' />
+ <path id='down' d='M0,360 180,180 360,360Z' fill='rgba(0,0,0,0.2)' />
+ <circle id='center' cx='180' cy='180' r='50' fill='#cccccc'/>
+ </svg>
+ </div>
+ <div id='salida'>
+ Aqui se muestran los movimientos... 
+ </div>
+</body>
+</html>
